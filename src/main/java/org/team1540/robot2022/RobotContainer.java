@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.photonvision.common.hardware.VisionLEDMode;
 import org.team1540.robot2022.commands.drivetrain.Drivetrain;
 import org.team1540.robot2022.commands.drivetrain.PointToTarget;
+import org.team1540.robot2022.commands.drivetrain.TankDriveCommand;
 import org.team1540.robot2022.utils.ChickenPhotonCamera;
 
 public class RobotContainer {
@@ -22,7 +23,7 @@ public class RobotContainer {
         initSmartDashboard();
         configureButtonBindings();
         limelight.setLED(VisionLEDMode.kOff);
-        System.out.println(limelight.getLatestResult().targets);
+        drivetrain.setDefaultCommand(new TankDriveCommand(drivetrain, driverController));
     }
 
     private void configureButtonBindings() {

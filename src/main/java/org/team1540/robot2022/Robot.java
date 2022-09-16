@@ -4,6 +4,8 @@
 
 package org.team1540.robot2022;
 
+import edu.wpi.first.util.datalog.StringArrayLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     private RobotContainer robotContainer;
+    private StringArrayLogEntry targetArray;
     /**
      * This function is run when the robot is first started up and should be used
      * for any
@@ -29,6 +32,9 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our autonomous chooser on the dashboard.
         this.robotContainer = new RobotContainer();
+        DataLogManager.start();
+
+        targetArray = new StringArrayLogEntry(DataLogManager.getLog(), "/targets");
     }
 
     /**
@@ -52,7 +58,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-
+        targetArray.append(robotContainer.limelight.getLatestResult().getTargets().stream().map((target) -> target.getFiducialId() + ": " + target.getYaw()).toArray(String[]::new));
         // Update the limelight's custom SmartDashboard value
     }
 
